@@ -1,6 +1,9 @@
 const config = require('./.contentful.json');
 
 export default {
+  server: {
+    port: 2771, // default: 3000
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'contentful-exchange',
