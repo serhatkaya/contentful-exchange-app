@@ -1,5 +1,7 @@
 # Exchange Rate App
 
+![alt text](https://github.com/serhatkaya/contentful-exchange-app/blob/master/docs/preview-exchange.png?raw=true)
+
 # Demo
 
 - http://test.serhatkaya.tk
