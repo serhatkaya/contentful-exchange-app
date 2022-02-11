@@ -1,5 +1,9 @@
 # Exchange Rate App
 
+# Demo
+
+- http://test.serhatkaya.tk
+
 # Development
 
 - You should create a file named .contentful.json for required datas.
