@@ -4,7 +4,7 @@
 
 # Demo
 
-- http://test.serhatkaya.tk
+- http://exchange.serhatkaya.tk
 
 # Development
 
