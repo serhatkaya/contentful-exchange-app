@@ -63,6 +63,47 @@ const client = createClient();
 
 export default {
   name: 'IndexPage',
+  asyncData({ env }) {
+    return Promise.all([
+      // fetch all blog posts sorted by creation date
+      client.getEntries(
+        gql.query({
+          operation: 'moneyUnitCollection',
+          fields: [
+            {
+              items: [
+                {
+                  sys: ['id'],
+                },
+                'universalShortening',
+              ],
+            },
+          ],
+        }).query
+      ),
+    ])
+      .then(([r]) => {
+        return {
+          entries: [
+            ...r.items.map((entry) => {
+              return {
+                icon: entry.fields.icon.fields.file.url.replace(
+                  '//',
+                  'https://'
+                ),
+                universalShortening: entry.fields.universalShortening,
+                name: entry.fields.name,
+                id: entry.sys.id,
+                value: 0,
+                usd: 0,
+                eur: 0,
+              };
+            }),
+          ],
+        };
+      })
+      .catch(console.error);
+  },
   data() {
     return {
       entries: [],
@@ -70,14 +111,12 @@ export default {
       lastRefresh: 0,
     };
   },
-
   created() {
-    this.fetchEntries();
     this.setRefreshInterval();
   },
   methods: {
     setRefreshInterval() {
-      let self = this;
+      const self = this;
       setInterval(async () => {
         if (
           (new Date().getTime() - this.lastRefresh) / 1000 >=
@@ -91,43 +130,10 @@ export default {
     fetchCurrencies: async (self) => {
       self.entries = await self.updateCurrencies(self.entries, self);
     },
-    fetchEntries() {
-      const query = gql.query({
-        operation: 'moneyUnitCollection',
-        fields: [
-          {
-            items: [
-              {
-                sys: ['id'],
-              },
-              'universalShortening',
-            ],
-          },
-        ],
-      }).query;
-
-      client.getEntries(query).then(async (r) => {
-        this.entries = [
-          ...r.items.map((entry) => {
-            return {
-              icon: entry.fields.icon.fields.file.url.replace('//', 'https://'),
-              universalShortening: entry.fields.universalShortening,
-              name: entry.fields.name,
-              id: entry.sys.id,
-              value: 0,
-              usd: 0,
-              eur: 0,
-            };
-          }),
-        ];
-        await this.fetchCurrencies(this);
-      });
-    },
     updateCurrencies: async (entries, self) => {
       for (let i = 0; i < entries.length; i++) {
         const res = (entries[i].value = await self.getCurrencyValue(
-          entries[i].universalShortening,
-          self
+          entries[i].universalShortening
         ));
         entries[i].value = res.value;
         entries[i].usd = res.usd;
@@ -135,10 +141,10 @@ export default {
       }
       return entries;
     },
-    getCurrencyValue: (currency, self) => {
+    getCurrencyValue(currency) {
       return new Promise((resolve, reject) => {
         try {
-          self.$axios
+          this.$axios
             .$get(`https://open.er-api.com/v6/latest/${currency}`)
             .then((r) => {
               resolve({
