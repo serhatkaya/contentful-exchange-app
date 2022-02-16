@@ -4,7 +4,7 @@
 
 # Demo
 
-- http://exchange.serhatkaya.tk
+- http://serhat.cf/exchange
 
 # Development
 
