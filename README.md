@@ -4,7 +4,7 @@
 
 # Demo
 
-- http://serhat.cf/exchange
+- http://exchange.serhat.cf
 
 # Development
 
