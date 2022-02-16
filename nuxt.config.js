@@ -23,7 +23,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/contentful.js' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -59,4 +59,5 @@ export default {
     CTF_SPACE_ID: config.CTF_SPACE_ID,
     CTF_CDA_ACCESS_TOKEN: config.CTF_CDA_ACCESS_TOKEN,
   },
+  target: 'static', // default is 'server'
 };

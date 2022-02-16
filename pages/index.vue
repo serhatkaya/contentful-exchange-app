@@ -8,7 +8,12 @@
       </select>
     </div>
     <div class="wrapper">
-      <div v-for="currency in entries" id="BTC" :key="currency.id" class="card">
+      <div
+        v-for="currency in entries"
+        :id="currency.id"
+        :key="currency.id"
+        class="card"
+      >
         <div class="card-line">
           <div class="card-image" style="--card-color-rgb: 247, 147, 26">
             <img
